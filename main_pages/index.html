@@ -18,7 +18,7 @@
   let charIndex = 0;
   let currentText = '';
   let isDeleting = false;
-  const typeSpeed = 200;
+  const typeSpeed = 150;
   const deleteSpeed = 50;
   const delay = 2000;
 
@@ -33,7 +33,7 @@
     }
 
     typewriterDiv.textContent = currentText;
-    typewriterDiv.style.width = currentText.length + "ch";  // Adjust width based on text length
+    typewriterDiv.style.width = currentText.length + "ch";  
 
     if (!isDeleting && charIndex === texts[index].length) {
       isDeleting = true;
@@ -114,7 +114,7 @@
         border-right: 3px solid;
         overflow: hidden;
         display: inline-block;
-        animation: blink-caret 0.75s step-end infinite;
+        animation: blink-caret 0.5s step-end infinite;
       }
 
       @keyframes blink-caret {
@@ -149,7 +149,7 @@
 
 
   <main>
-    <h1 style="font-size : 5rem">Cosimo Ungaro</h1>
+    <h1>Cosimo Ungaro</h1>
 
 <div class="mb-5">
     <p class="fs-5 col-md-8">Étudiant en école d'ingénieur à <a href="https://telecomnancy.univ-lorraine.fr">Télécom Nancy</a></p>
@@ -160,8 +160,8 @@
 <hr class="col-3 col-md-2 mb-5">
 
 
-      <a href="scolaire.html" class="btn btn-primary btn-lg px-4">Projets Scolaires</a>
-      <a href="personnel.html" class="btn btn-primary btn-lg px-4">Projets Personnels</a>
+      <a href="https://github.com/cos-imo" class="btn btn-primary btn-lg px-4">Projets Scolaires</a>
+      <a href="https://github.com/cos-imo" class="btn btn-primary btn-lg px-4">Projets Personnels</a>
       <a href="https://github.com/cos-imo" class="btn btn-dark btn-lg px-4">Github</a>
     </div>
 
