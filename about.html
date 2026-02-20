@@ -1,16 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Ingénieur cybersécurité junior spécialisé en sécurité offensive, pentest et conseil en cybersécurité. Diplômé de TELECOM Nancy.">
     <meta name="author" content="Cosimo Ungaro">
-    <title>Cosimo Ungaro</title>
+    <title>À propos | Cosimo Ungaro</title>
+
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
       .hover-scale:hover {
-        transform: scale(1.2);
-        transition: transform 0.4s;
+        transform: scale(1.15);
+        transition: transform 0.3s;
       }
       .section-title {
         margin-bottom: 2rem;
@@ -20,13 +22,9 @@
         background-color: #f8f9fa;
         border-radius: 1rem;
         padding: 3rem;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
       }
-      .tech-logo {
-        width: 80px;
-        height: 80px;
-        object-fit: contain;
-      }
+      .tech-logo,
       .social-logo {
         width: 80px;
         height: 80px;
@@ -34,6 +32,7 @@
       }
     </style>
   </head>
+
   <body>
     <div class="col-lg-8 mx-auto p-4 py-md-5">
       <div class="container">
@@ -44,83 +43,113 @@
           <ul class="nav nav-pills">
             <li class="nav-item"><a href="index.html" class="nav-link">Accueil</a></li>
             <li class="nav-item"><a href="projets.html" class="nav-link">Projets</a></li>
-            <li class="nav-item"><a href="#" class="nav-link active" aria-cuurent="page">À Propos</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">À propos</a></li>
           </ul>
         </header>
       </div>
 
       <main>
-        <div class="text-center mb-5">
-          <h1 class="section-title">Technologies</h1>
+        <!-- PROFIL -->
+        <div class="card-section">
+          <h1 class="section-title text-center">Profil</h1>
+          <p class="fs-5">
+            Ingénieur informatique diplômé de <strong>TELECOM Nancy</strong> (filière ISS – Internet Systems and Security),
+            spécialisé en <strong>cybersécurité offensive</strong>, tests d’intrusion et audit de sécurité.
+          </p>
+          <p class="fs-5">
+            Je recherche un poste de <strong>consultant junior en cybersécurité / pentester</strong>, idéalement au sein
+            d’un cabinet de conseil ou d’un centre d’expertise Red Team, où je pourrai conjuguer excellence technique,
+            compréhension des enjeux métiers et impact client.
+          </p>
+          <p class="fs-5 mb-0">
+            Disponible immédiatement – mobilité Paris.
+          </p>
+        </div>
+
+        <!-- COMPETENCES -->
+        <div class="text-center mb-4">
+          <h1 class="section-title">Compétences techniques</h1>
         </div>
         <div class="d-flex justify-content-center align-items-center mb-5">
           <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4 text-center">
-            <div class="col"><a href="https://portswigger.net/burp"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Logo_burpsuite.jpg?20230731152625" class="hover-scale tech-logo" alt="Burp Suite"></a></div>
-            <div class="col"><a href="https://nmap.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Logo_nmap.png?20230731104508" class="hover-scale tech-logo" alt="Nmap"></a></div>
-            <div class="col"><a href="https://www.wireshark.org/"><img src="https://www.wireshark.org/_astro/wireshark-logo-big.CkRjSOaC_vkreH.png" class="hover-scale tech-logo" alt="Wireshark"></a></div>
-            <div class="col"><a href="https://github.com/fortra/impacket"><img src="https://avatars.githubusercontent.com/u/117669217?s=48&v=4" class="hover-scale tech-logo" alt="Impacket"></a></div>
-            <div class="col"><a href="https://github.com/NationalSecurityAgency/ghidra"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Ghidra_Logo.png" class="hover-scale tech-logo" alt="Ghidra"></a></div>
-            <div class="col"><a href="https://www.python.org"><img src="./images/Python-logo.png" class="hover-scale tech-logo" alt="Python"></a></div>
-            <div class="col"><a href="https://www.gnu.org/software/bash/"><img src="https://d33wubrfki0l68.cloudfront.net/306f655dcc33cc3d958cab80d78d3f2da427974c/a2bd8/img/logo/svg/full_colored_dark.svg" class="hover-scale tech-logo" alt="Python"></a></div>
-            <div class="col"><a href="https://www.docker.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Docker_Logo.png" class="hover-scale tech-logo" alt="Docker"></a></div>
-            <div class="col"><a href="https://en.wikipedia.org/wiki/Active_Directory"><img src="https://www.secsign.com/wp-content/uploads/2018/02/active-directory-logo-300x300.png" class="hover-scale tech-logo" alt="Docker"></a></div>
-            <div class="col"><a href="https://attack.mitre.org/"><img src="https://owasp.org/assets/images/logo.png" class="hover-scale tech-logo" alt="Mittre"></a></div>
-            <div class="col"><a href="https://owasp.org/"><img src="https://attack.mitre.org/theme/images/ATT&CK_red.png" class="hover-scale tech-logo" alt="OWASP"></a></div>
-            <div class="col"><a href="https://www.cisecurity.org/cis-benchmarks"><img src="https://www.cisecurity.org/-/jssmedia/project/cisecurity/cisecurity/data/media/img/logos-and-icons/2025/cis--25th-anniversary-logo--web.svg?h=86&iar=0&w=300&rev=ec127358b1ac42d884392dbf74a65765&hash=2343C2EE3A911502D0428AD7666AC5FF" class="hover-scale tech-logo" alt="CIS"></a></div>
-            <div class="col"><a href="https://www.sans.org/cyber-security-training-overview?utm_source=Google&utm_medium=CPC&utm_content=22027105898-169011795981-761203534053&utm_term=sans%20training&utm_campaign=SANS_Awareness&utm_type=Global_Campaign&utm_goal=Community_Growth&utm_rDetail=EMEA&utm_source=Google&utm_medium=CPC&utm_content=22027105898-169011795981-761203534053&utm_term=sans%20training&gad_source=1&gad_campaignid=22027105898&gbraid=0AAAAADo9I1gvFiGsoAUlnlxfnRy5-MwYw&gclid=Cj0KCQiAhtvMBhDBARIsAL26pjH2oiWfoNFvsB-21KK0doxwWLvRNYUBj5dH4KprL2NB_nmjRt-1TxsaAjQPEALw_wcB"><img src="https://www.sans.org/icon1.png?2951f2f1b780f8ac" class="hover-scale tech-logo" alt="SANS"></a></div>
+            <div class="col"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Logo_burpsuite.jpg" class="hover-scale tech-logo" alt="Burp Suite"></div>
+            <div class="col"><img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Logo_nmap.png" class="hover-scale tech-logo" alt="Nmap"></div>
+            <div class="col"><img src="https://www.wireshark.org/_astro/wireshark-logo-big.CkRjSOaC_vkreH.png" class="hover-scale tech-logo" alt="Wireshark"></div>
+            <div class="col"><img src="https://avatars.githubusercontent.com/u/117669217?s=48&v=4" class="hover-scale tech-logo" alt="Impacket"></div>
+            <div class="col"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Ghidra_Logo.png" class="hover-scale tech-logo" alt="Ghidra"></div>
+            <div class="col"><img src="./images/Python-logo.png" class="hover-scale tech-logo" alt="Python"></div>
+            <div class="col"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Docker_Logo.png" class="hover-scale tech-logo" alt="Docker"></div>
+            <div class="col"><img src="https://www.secsign.com/wp-content/uploads/2018/02/active-directory-logo-300x300.png" class="hover-scale tech-logo" alt="Active Directory"></div>
+            <div class="col"><img src="https://attack.mitre.org/theme/images/ATT&CK_red.png" class="hover-scale tech-logo" alt="MITRE ATT&CK"></div>
+            <div class="col"><img src="https://owasp.org/assets/images/logo.png" class="hover-scale tech-logo" alt="OWASP"></div>
           </div>
         </div>
 
-        <div class="text-center mb-5">
-          <h1 class="section-title">Retrouvez-moi</h1>
-        </div>
-        <div class="d-flex justify-content-center align-items-center mb-5">
-          <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 g-4 text-center">
-            <div class="col"><a href="https://github.com/cos-imo"><img src="./images/logo_github.png" class="hover-scale social-logo" alt="GitHub"></a></div>
-            <div class="col"><a href="https://www.linkedin.com/in/cosimo-ungaro-810a50260/"><img src="./images/logo_linkedin.png" class="hover-scale social-logo" alt="LinkedIn"></a></div>
-            <div class="col"><a href="https://cryptohack.org/user/fabdeldongo/"><img src="./images/logo_cryptohack.png" class="hover-scale social-logo" alt="CryptoHack"></a></div>
-            <div class="col"><a href="https://www.root-me.org/cos-imo?lang=fr#9e575e84330c008e2a69693337dad149"><img src="./images/logo_root-me.svg" class="hover-scale social-logo" alt="Root-Me"></a></div>
-          </div>
-        </div>
-
-        <div class="text-center mb-5">
-          <h1 class="section-title">CV</h1>
-        </div>
+        <!-- INDICATEURS OFFENSIFS -->
         <div class="card-section">
-          <div class="container-fluid">
+          <h2 class="fs-2 fw-bold mb-4">Pratique offensive</h2>
+          <ul class="fs-5">
+            <li>Root-Me : <strong>3170 points</strong></li>
+            <li>CryptoHack : <strong>1230 points</strong></li>
+            <li>PortSwigger Web Security Academy : <strong>90 labs complétés</strong></li>
+            <li>Rédaction de write-ups et documentation technique publique</li>
+          </ul>
+        </div>
 
-            <h2 class="fs-2 fw-bold mb-4">Expérience</h2>
-            <div class="mb-4">
-              <p class="fs-4 fw-bold mb-1">Stagiaire cybersécurité</p>
-              <p class="fs-5 text-muted mb-1">Banque Raiffeisen (Luxembourg)</p>
-              <p class="fs-6 text-secondary mb-2">Mars-Septembre 2024 (6 mois)</p>
-              <p class="fs-6 mb-0">Conception et implémentation d'outils de cybersécurité</p>
-            </div>
-            <div class="mb-4">
-              <p class="fs-4 fw-bold mb-1">Stagiaire assistant chercheur</p>
-              <p class="fs-5 text-muted mb-1">Inria/CNRS/Université de Lorraine</p>
-              <p class="fs-6 text-secondary mb-2">Juin-Août 2024 (3 mois)</p>
-              <p class="fs-6 mb-0">Implémentation de la suite cryptographique <a href="https://sparkle-lwc.github.io" class="text-decoration-none">Sparkle</a> en <a href="https://github.com/jasmin-lang/jasmin" class="text-decoration-none">Jasmin</a></p>
-            </div>
+        <!-- EXPERIENCE -->
+        <div class="card-section">
+          <h2 class="fs-2 fw-bold mb-4">Expérience professionnelle</h2>
 
-            <h2 class="fs-2 fw-bold mb-4">Formation</h2>
-            <div class="mb-3">
-              <p class="fs-4 fw-bold mb-1">TELECOM Nancy</p>
-              <p class="fs-5 text-muted mb-1">Filière cybersécurité (ISS - Internet Systems and Security)</p>
-              <p class="fs-6 text-secondary mb-0">École d'ingénieur en informatique</p>
-            </div>
-            <div class="mb-3">
-              <p class="fs-4 fw-bold mb-1">CPGE</p>
-              <p class="fs-6 mb-0">Classe préparatoire aux grandes écoles - Filière MP (Maths - Physique)</p>
-            </div>
+          <div class="mb-4">
+            <p class="fs-4 fw-bold mb-1">Stagiaire cybersécurité – Banque Raiffeisen (Luxembourg)</p>
+            <p class="fs-6 text-secondary mb-2">Stage de fin d’études – 6 mois</p>
+            <ul class="fs-6">
+              <li>Développement complet d’une application web de gestion des vulnérabilités</li>
+              <li>Intégration des API Rapid7, automatisation CI/CD</li>
+              <li>Suivi et remédiation des vulnérabilités pour ~850 utilisateurs</li>
+            </ul>
+          </div>
 
-            <div class="text-center mt-4">
-              <p class="fs-5">Voir le <a href="CV.pdf" class="text-decoration-none fw-bold">CV complet</a></p>
-            </div>
+          <div class="mb-4">
+            <p class="fs-4 fw-bold mb-1">Stagiaire assistant chercheur – Inria / CNRS / Université de Lorraine</p>
+            <p class="fs-6 text-secondary mb-2">Été 2024</p>
+            <ul class="fs-6">
+              <li>Implémentation de la suite cryptographique Sparkle en langage Jasmin</li>
+              <li>Analyse bas niveau et optimisation de performances cryptographiques</li>
+            </ul>
+          </div>
 
+          <div>
+            <p class="fs-4 fw-bold mb-1">Cyber Humanum’Est – Lieutenant</p>
+            <p class="fs-6 text-secondary mb-2">TELECOM Nancy</p>
+            <ul class="fs-6">
+              <li>Coordination d’une équipe de 20 pentesters</li>
+              <li>Exercice Red Team / Blue Team de 72 heures</li>
+              <li>Rédaction de livrables techniques et stratégiques</li>
+            </ul>
           </div>
         </div>
 
+        <!-- FORMATION -->
+        <div class="card-section">
+          <h2 class="fs-2 fw-bold mb-4">Formation</h2>
+          <p class="fs-4 fw-bold mb-1">TELECOM Nancy – Diplôme d’ingénieur</p>
+          <p class="fs-6">Filière cybersécurité ISS – Internet Systems and Security</p>
+
+          <p class="fs-4 fw-bold mt-3 mb-1">Classe préparatoire MPSI–MP</p>
+          <p class="fs-6">Mathématiques – Physique</p>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="card-section text-center">
+          <h2 class="fs-2 fw-bold mb-4">Contact</h2>
+          <p class="fs-5 mb-1">📍 Paris / Île-de-France</p>
+          <p class="fs-5 mb-1">📧 cosimo.ungaro@proton.me</p>
+          <p class="fs-5 mb-1">📞 +33 7 66 34 42 23</p>
+          <p class="fs-5">
+            <a href="CV.pdf" class="fw-bold text-decoration-none">Télécharger le CV complet</a>
+          </p>
+        </div>
       </main>
     </div>
   </body>
