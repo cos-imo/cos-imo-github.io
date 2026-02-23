@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lab PortSwigger : exécution de code à distance via upload de web shell.">
+  <meta name="author" content="Cosimo Ungaro">
+  <title>Lab File Upload RCE | Cosimo Ungaro</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../style.css" rel="stylesheet">
+</head>
+<body>
+<main>
+  <div class="col-lg-8 mx-auto">
+    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+      <a href="../index.html" class="me-md-auto text-decoration-none text-dark">
+        <span class="fs-4">Cosimo Ungaro</span>
+      </a>
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="../index.html" class="nav-link">Accueil</a></li>
+        <li class="nav-item"><a href="../rapports.html" class="nav-link active" aria-current="page">Rapports d'audits & études de cas</a></li>
+        <li class="nav-item"><a href="../projets.html" class="nav-link">Projets</a></li>
+        <li class="nav-item"><a href="../about.html" class="nav-link">À propos</a></li>
+      </ul>
+    </header>
+
+    <style> 
+      .lab-btn {
+        background-color: transparent;
+        color: #ff8000;
+        border: 2px solid #ff8000;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .lab-btn:hover {
+        background-color: #ff8000;
+        color: white;
+      }
+      .card-title { font-weight: bold; }
+      .card-text { font-size: 0.95rem; }
+      .btn-project { margin-top: 0.5rem; }
+    </style>
+
+    <section>
+      <h1>File Upload – Remote Code Execution via Web Shell</h1>
+      <p>
+        Exploitation d’un mécanisme d’upload insuffisamment contrôlé
+        permettant le dépôt et l’exécution d’un web shell.
+      </p>
+
+      <a class="btn lab-btn btn-sm" href="https://portswigger.net/web-security/file-upload/lab-file-upload-web-shell-upload-via-path-traversal" target="_blank">
+        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3vh" height="3wh" fill="#FF6633"><title>PortSwigger</title><path d="M0 0v24h10.718v-3.805l3.496-4.272h-3.496v-5.205H4.427l6.291-7.767V0Zm13.282 0v3.884L9.786 8.155h3.496v5.205h6.291l-6.291 7.767V24H24V0Z"/></svg>
+        Voir le lab sur PortSwigger
+      </a>
+
+      <hr>
+
+      <h3>Résumé exécutif</h3>
+
+      <h5>Vulnérabilités identifiées</h5>
+        <ul>
+          <li>Upload non réglementaire de fichiers dangereux (CWE-434)</li>
+        </ul>
+
+      <h5>Impact principal</h5>
+        <ul>
+          <li>Exécution de code malveillant côté serveur</li>
+        </ul>
+      
+      <h5>Niveau de risque</h5>
+        <ul>
+          <li><b>Elevé</b></li>
+        </ul>
+
+      <h5>Résumé</h5>
+        <ul>
+          <li>La fonctionnalité permettant de transférer des fichiers sur le serveur vérifie mal le type desdits fichiers, permettant à un attaquant de transférer un fichier lui permettant d'exécuter du code malveillant sur le serveur; faille <b>critique</b> pour le SI, <b>remédiation immédiate</b> suggérée</li>
+        </ul>
+
+      <hr>
+
+      <h3>Contexte</h3>
+      <ul>
+        <li><b>Fonctionnalité testée :</b>Fonctionnalité d’upload</li>
+        <li><b>Hypothèse :</b>Filtrage insuffisant des types de fichiers</li>
+      </ul>
+
+      <h3>Objectifs</h3>
+      <ul>
+        <li>Identifier les failles potentielles liées au mécanisme d'upload</li>
+        <li>Obtenir une exécution de commandes serveur</li>
+      </ul>
+
+      <h3>Périmètre et cadre</h3>
+        <ul>
+          <li>Tests réalisés exclusivement dans un environnement de laboratoire contrôlé</li>
+          <li>Aucune donnée réelle ni système de production impacté</li>
+        </ul>
+
+      <hr>
+
+      <h3>Méthodologie</h3>
+      <ul>
+        <li>Analyse des contrôles côté serveur</li>
+        <li>Contournement des restrictions d’extension</li>
+        <li>Contournement de règles de protection mal appliqué côté métier (path traversal)</li>
+        <li>Rédaction du présent rapport</li>
+      </ul>
+
+      <h3>Proof-Of-Concept</h3>
+      <ul>
+        <li>Déploiement d’un web shell</li>
+        <li>Validation de l'exploitabilité via un web shell de test</li>
+        <li>Confirmation contrôlée de l'exécution de commandes côté serveur</li>
+      </ul>
+
+      <h3>Outils</h3>
+      <ul>
+        <li>Navigateur: Google Chrome (latest stable)</li>
+        <li>Burp Suite (Community Edition)</li>
+        <li>Environnement de compromission isolé et contrôlé</li>
+        <li>Fichier <code>fichier.php</code> (webshell)</li>
+      </ul>
+
+      <h3>Résultats</h3>
+      <ul>
+        <li>Mauvaise prise en charge des fichiers uploadés.</li>
+        <li>Exécution de commandes arbitraires</li>
+        <li>Compromission complète du serveur applicatif</li>
+        <li>Classement OWASP Top 10 : A03 - Injection, A05 - Security Misconfiguration</li>
+
+        <li>Sévérité :
+          <ul>
+            <li><b>Confidentialité:</b> Impact élevé (exposition de données utilisateurs)</li>
+            <li><b>Intégrité:</b> Impact potentiel</li>
+            <li><b>Disponibilité:</b> Impact indirect</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Potentiel impact métier</h3>
+      <ul>
+        <li>Compromission potentielle de données sensibles hébergées sur le serveur applicatif</li>
+        <li>Risque de non-conformité réglementaire (RGPD, exigences de sécurité internes)</li>
+        <li>Atteinte possible à la disponibilité du service et à la confiance des utilisateurs</li>
+      </ul>
+
+      <h3>Remédiation</h3>
+      <ul>
+        <li>Court terme</li>
+        <ul>
+          <li>Validation stricte du type MIME et de l'extension côté serveur (zero-trust pour les données fournies par le client)</li>
+          <li>Stockage des fichiers hors du répertoire du site</li>
+          <li>Désactivation de l’exécution des fichiers uploadés</li>
+          <li>Mise en place de journalisation et d'alertes sur les uploads</li>
+        </ul>
+        <li>Long terme</li>
+        <ul>
+          <li>Sensibilisation continue des équipes de développement au Secure By Design</li>
+          <li>Revue régulière des politiques de sécurité applicative.</li>
+        </ul>
+      </ul>
+
+      <h3>Hypothèses et limites</h3>
+      <ul>
+        <li>Tests limités au périmètre évalué</li>
+        <li>Absence d'analyse du code source</li>
+      </ul>
+      <hr>
+
+      <h3>Références</h3>
+      
+      <h5>OWASP</h5>
+        <ul>  
+          <li>OWASP : <a href="https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload">Unrestricted File Uploads</a></li>
+          <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/09-Test_Upload_of_Malicious_Files">Test Upload of Malicious Files</a></li>
+          <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/10-Business_Logic_Testing/08-Test_Upload_of_Unexpected_File_Types">Test Upload of Unexpected File Types</a></li>
+          <li>OWASP : <a href="https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html">File upload Cheat Sheet</a></li>
+        </ul>
+
+      <h5>MITRE</h5>
+        <ul> 
+          <li>MITRE (CWE-434) : <a href="https://cwe.mitre.org/data/definitions/434.html">Unrestricted Upload of File with Dangerous Type</a></li>
+          <li>MITRE : <a href="https://attack.mitre.org/techniques/T0845/">Program Upload</a></li>
+          <li>MITRE : <a href="https://attack.mitre.org/techniques/T1608/001/">Malware Upload</a></li>
+        </ul>
+
+      <hr>
+      
+      <h3>Compétences démontrées</h3>
+      <ul>
+        <li>Identification et exploitation de vulnérabilités web</li>
+        <li>Analyse de risques applicatifs</li>
+        <li>Application des standards OWASP et MITRE</li>
+        <li>Sensibilisation aux risques de sécurité</li>
+        <li>Compétences rédactionnelles</li>
+        <li>Mise en place de recommandations côté métier</li>
+      </ul>
+
+    </section>
+
+    <footer class="pt-5 mt-4 text-muted border-top">
+      © Cosimo Ungaro
+    </footer>
+  </div>
+</main>
+</body>
+</html>

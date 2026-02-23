@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lab PortSwigger : SQL Injection – énumération de bases de données sur systèmes non-Oracle.">
+  <meta name="author" content="Cosimo Ungaro">
+  <title>Lab SQL Injection | Cosimo Ungaro</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../style.css" rel="stylesheet">
+</head>
+<body>
+<main>
+  <div class="container py-5">
+    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+      <a href="../index.html" class="me-md-auto text-decoration-none text-dark">
+        <span class="fs-4">Cosimo Ungaro</span>
+      </a>
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="../index.html" class="nav-link">Accueil</a></li>
+        <li class="nav-item"><a href="../rapports.html" class="nav-link active" aria-current="page">Rapports d'audits & études de cas</a></li>
+        <li class="nav-item"><a href="../projets.html" class="nav-link">Projets</a></li>
+        <li class="nav-item"><a href="../about.html" class="nav-link">À propos</a></li>
+      </ul>
+    </header>
+
+    <style>
+      .lab-btn {
+        background-color: transparent;
+        color: #ff8000;
+        border: 2px solid #ff8000;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+      }
+      .lab-btn:hover {
+        background-color: #ff8000;
+        color: white;
+      }
+    </style>
+
+    <section>
+      <h1>SQL Injection – Énumération de bases de données (Non‑Oracle)</h1>
+      <p>
+        Exploitation d’une vulnérabilité d’injection SQL ayant permis l’énumération des tables et colonnes d’une base de données sur des systèmes non‑Oracle.
+      </p>
+
+      <a class="btn lab-btn btn-sm" href="https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle" target="_blank">
+        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3vh" height="3wh" fill="#FF6633">
+          <title>PortSwigger</title>
+          <path d="M0 0v24h10.718v-3.805l3.496-4.272h-3.496v-5.205H4.427l6.291-7.767V0Zm13.282 0v3.884L9.786 8.155h3.496v5.205h6.291l-6.291 7.767V24H24V0Z"/>
+        </svg>
+        Voir le lab sur PortSwigger
+      </a>
+
+      <hr>
+
+      <h3>Résumé exécutif</h3>
+
+      <h5>Vulnérabilités identifiées</h5>
+        <ul>
+          <li>Injection SQL (CWE-89)</li>
+        </ul>
+
+      <h5>Impact principal</h5>
+        <ul>
+          <li>Compromission de comptes utilisateurs</li>
+          <li>Compromission de comptes à haut privilège</li>
+        </ul>
+      
+      <h5>Niveau de risque</h5>
+        <ul>
+          <li><b>Elevé</b> (compromission d'un compte à haut privilèges, sans prérequis)</li>
+        </ul>
+
+      <h5>Résumé</h5>
+        <ul>
+          <li>L'exploitation d'une faille SQL permet, sans prérequis, à un attaquant d'obtenir accès à un compte à haut privilège; faille <b>critique</b> pour le SI, <b>remédiation immédiate</b> suggérée</li>
+        </ul>
+      
+        <hr>
+
+      <h3>Contexte</h3>
+      <ul>
+        <li><b>Fonctionnalité testée :</b> Requêtes SQL dynamiques</li>
+        <li><b>Hypothèse :</b> Absence de requêtes paramétrées (injection possible)</li>
+      </ul>
+
+      <h3>Objectifs</h3>
+      <ul>
+        <li>Identification d'un point d’injection SQL exploitable</li>
+        <li>Énumération des tables et colonnes de la base de données</li>
+        <li>Exploitation de la vulnérabilité: extraction de données utilisateurs sensibles</li>
+      </ul>
+
+      <h3>Périmètre et cadre</h3>
+      <ul>
+        <li>Réalisation dans un environnement contrôlé (lab)</li>
+        <li>Aucune donnée réelle ni système de production impacté</li>
+      </ul>
+
+      <hr>
+
+      <h3>Méthodologie</h3>
+      <ul>
+        <li>Analyse des paramètres HTTP côté serveur</li>
+        <li>Détection de l’injection SQL</li>
+        <li>Utilisation de requêtes UNION pour l’énumération</li>
+        <li>Rédaction du rapport technique</li>
+      </ul>
+
+      <h3>Proof‑Of‑Concept</h3>
+      <ul>
+        <li>Identification de l'injection SQL</li>
+        <li>Détermination de la forme de la requête</li>
+        <li>Extraction de la liste des tables et colonnes de la base de données</li>
+        <li>Compromission de données d'authentification utilisateurs</li>
+        <li>Validation contrôlée de l’accès aux données</li>
+      </ul>
+
+      <h3>Outils</h3>
+      <ul>
+        <li>Navigateur : Google Chrome (latest stable)</li>
+        <li>Burp Suite (Community Edition)</li>
+      </ul>
+
+      <h3>Résultats</h3>
+      <ul>
+        <li>Accès non autorisé aux structures de la base de données</li>
+        <li>Exposition de données d'authentification</li>
+        <li>OWASP Top 10 : A03 – Injection</li>
+        <li>Sévérité :
+          <ul>
+            <li><b>Confidentialité:</b> Impact élevé (exécution de code malveillant)</li>
+            <li><b>Intégrité:</b> Impact potentiel</li>
+            <li><b>Disponibilité:</b> Impact indirect</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Potentiel impact métier</h3>
+      <ul>
+        <li>Compromission de données utilisateurs</li>
+        <li>Risque réglementaire et atteinte à la confidentialité</li>
+        <li>Compromission de comptes à haut privilège (administrateur)</li>
+      </ul>
+
+      <h3>Remédiation</h3>
+      <ul>
+        <li>Court Terme</li>
+        <ul>
+          <li>Utilisation systématique de requêtes paramétrées</li>
+          <li>Validation stricte des entrées côté serveur (zero-trust pour les données clients)</li>
+          <li>Principe du moindre privilège sur la base de données</li>
+        </ul>
+        <li>Long terme</li>
+        <ul>
+          <li>Revue régulière du code applicatif</li>
+          <li>Sensibilisation continue des développeurs (formations bi-annuelles sur le SSDLC)</li>
+        </ul>
+      </ul>
+
+      <h3>Hypothèses et limites</h3>
+      <ul>
+        <li>Tests limités au périmètre évalué</li>
+        <li>Absence d'analyse du code source</li>
+        <li>Hypothèse de privilèges applicatifs standards</li>
+      </ul>
+
+      <hr>
+
+      <h3>Références</h3>
+      
+      <h5>OWASP</h5>
+        <ul>  
+          <li>OWASP : <a href="https://owasp.org/Top10/2021/A03_2021-Injection/">A03:2021 - Injection</a></li>
+          <li>OWASP : <a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">SQL Injection Prevention CheatSheet</a></li>
+          <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection">Testing for SQL Injections</a></li>
+          <li>OWASP : <a href="https://owasp.org/www-community/attacks/SQL_Injection">SQL Injection</a></li>
+        </ul>
+
+      <h5>MITRE</h5>
+        <ul> 
+          <li>MITRE : <a href="https://capec.mitre.org/data/definitions/66.html">CAPEC-66: SQL Injection</a></li>
+          <li>MITRE : <a href="https://attack.mitre.org/techniques/T1190/">Exploit Public-Facing Application</a></li>
+          <li>MITRE (CWE) : <a href="https://cwe.mitre.org/data/definitions/89.html">SQL injection</a></li>
+        </ul>
+
+      <hr>
+
+      <h3>Compétences démontrées</h3>
+      <ul>
+        <li>Exploitation de vulnérabilités SQL</li>
+        <li>Analyse de risques applicatifs</li>
+        <li>Maîtrise de Burp Suite et SQLMap</li>
+        <li>Rédaction de rapports de sécurité</li>
+      </ul>
+    </section>
+
+    <footer class="pt-5 mt-4 text-muted border-top">
+      © Cosimo Ungaro
+    </footer>
+  </div>
+</main>
+</body>
+</html>
