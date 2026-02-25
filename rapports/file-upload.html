@@ -46,7 +46,7 @@
       .btn-project { margin-top: 0.5rem; }
     </style>
 
-    <section>
+    <img>
       <h1>File Upload – Remote Code Execution via Web Shell</h1>
       <p>
         Exploitation d’un mécanisme d’upload insuffisamment contrôlé
@@ -60,7 +60,7 @@
 
       <hr>
 
-      <h3>Résumé exécutif</h3>
+      <h2>Résumé exécutif</h2>
 
       <h5>Vulnérabilités identifiées</h5>
         <ul>
@@ -79,10 +79,12 @@
 
       <h5>Résumé</h5>
         <ul>
-          <li>La fonctionnalité permettant de transférer des fichiers sur le serveur vérifie mal le type desdits fichiers, permettant à un attaquant de transférer un fichier lui permettant d'exécuter du code malveillant sur le serveur; faille <b>critique</b> pour le SI, <b>remédiation immédiate</b> suggérée</li>
+          <li>La fonctionnalité permettant de transférer des fichiers sur le serveur vérifie mal le type desdits fichiers, permettant à un attaquant non authentifié de transférer un fichier lui permettant d'exécuter du code malveillant sur le serveur. Un attaquant pourrait ainsi prendre le contrôle du serveur applicatif, altérer le site web et ainsi interrompre le service. Faille <b>critique</b> pour le SI, <b>remédiation immédiate</b> suggérée</li>
         </ul>
 
       <hr>
+
+      <h2>Technique</h2>
 
       <h3>Contexte</h3>
       <ul>
@@ -105,16 +107,19 @@
       <hr>
 
       <h3>Méthodologie</h3>
-      <ul>
-        <li>Analyse des contrôles côté serveur</li>
-        <li>Contournement des restrictions d’extension</li>
-        <li>Contournement de règles de protection mal appliqué côté métier (path traversal)</li>
+      <img>
+        <li>Upload d'un premier fichier PHP, aucune prévention relevée</li>
+        <img src="../assets/img/upload.png" width="1280wh" height="720h"></img>
+        <li>Upload du fichier dans un répertoire permettant l'exécution à l'aide d'un directory traversal, aucune prévention relevée</li>
+        <img src="../assets/img/directory_traversal.png" width="1280wh" height="720h"></img>
+        <li>Déclenchement de l'exécution du payload afin de confirmer la vulnérabilité</li>
+        <img src="../assets/img/confirm.png" width="1280wh" height="720h"></img>
         <li>Rédaction du présent rapport</li>
       </ul>
 
       <h3>Proof-Of-Concept</h3>
       <ul>
-        <li>Déploiement d’un web shell</li>
+        <li>Déploiement d’un web shell : <code>&lt;?php echo file_get_contents('/home/carlos/secret'); &gt;</code></li>
         <li>Validation de l'exploitabilité via un web shell de test</li>
         <li>Confirmation contrôlée de l'exécution de commandes côté serveur</li>
       </ul>
@@ -131,8 +136,8 @@
       <ul>
         <li>Mauvaise prise en charge des fichiers uploadés.</li>
         <li>Exécution de commandes arbitraires</li>
-        <li>Compromission complète du serveur applicatif</li>
-        <li>Classement OWASP Top 10 : A03 - Injection, A05 - Security Misconfiguration</li>
+        <li>Compromission du serveur applicatif</li>
+        <li>Classement OWASP Top 10 : A02:2025 - Security Misconfiguration</li>
 
         <li>Sévérité :
           <ul>
@@ -140,6 +145,21 @@
             <li><b>Intégrité:</b> Impact potentiel</li>
             <li><b>Disponibilité:</b> Impact indirect</li>
           </ul>
+        </li>
+        <li>Scoring CVSS :
+          <ul>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</ul>
+          <li>Détail</li>
+            <ul>
+              <li>AV (Attack Vector) - N(Network) - Exploitable via Internet</li>
+              <li>AC (Attack Complexity) - L(Low) - Aucun contournement complexe requis</li>
+              <li>PR (Privileges required) - N(None) - Aucun compte requis</li>
+              <li>UI (User Interaction) - N(None) - Pas d'action utilisateur nécessaire</li>
+              <li>S (Scope) - U(Unchanged) - Impact sur le même composant</li>
+              <li>C (Confidentiality) - H(High) - Lecture fichiers serveur</li>
+              <li>I (Integrity) - H(High) - Modification possible</li>
+              <li>A (Availability) - H(High) - Possibilité de destruction des données</li>
+            </ul>
+          <ul>Scoring final: 9.8 - Critique</ul>
         </li>
       </ul>
 
@@ -152,17 +172,23 @@
 
       <h3>Remédiation</h3>
       <ul>
+        <li>Immédiat</li>
+          <ul>
+            <li>Désactivation de l’exécution des fichiers uploadés</li>
+            <li>Suppression des éventuels fichiers malveillants déjà uploadés</li>
+          </ul>
         <li>Court terme</li>
         <ul>
           <li>Validation stricte du type MIME et de l'extension côté serveur (zero-trust pour les données fournies par le client)</li>
+          <li>Vérification du magic number</li>
           <li>Stockage des fichiers hors du répertoire du site</li>
-          <li>Désactivation de l’exécution des fichiers uploadés</li>
           <li>Mise en place de journalisation et d'alertes sur les uploads</li>
         </ul>
         <li>Long terme</li>
         <ul>
           <li>Sensibilisation continue des équipes de développement au Secure By Design</li>
           <li>Revue régulière des politiques de sécurité applicative.</li>
+          <li>Mise en place d'un WAF</li>
         </ul>
       </ul>
 
@@ -176,12 +202,19 @@
       <h3>Références</h3>
       
       <h5>OWASP</h5>
-        <ul>  
-          <li>OWASP : <a href="https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload">Unrestricted File Uploads</a></li>
-          <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/09-Test_Upload_of_Malicious_Files">Test Upload of Malicious Files</a></li>
-          <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/10-Business_Logic_Testing/08-Test_Upload_of_Unexpected_File_Types">Test Upload of Unexpected File Types</a></li>
-          <li>OWASP : <a href="https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html">File upload Cheat Sheet</a></li>
-        </ul>
+        <h6>Classification Top 10</h6>
+          <ul>
+            <li>OWASP : <a href="https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/">A02:2025 - Security Misconfiguration</a></li>
+            <li>OWASP : <a href="https://owasp.org/Top10/2025/A06_2025-Insecure_Design/">A06:2025 - Insecure Design</a></li>
+            <li>OWASP : <a href="https://owasp.org/Top10/2025/A08_2025-Software_or_Data_Integrity_Failures/">A08:2025 - Software or Data Integrity Failures</a></li>
+          </ul>
+        <h6>Articles liés</h6>
+          <ul>  
+            <li>OWASP : <a href="https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload">Unrestricted File Uploads</a></li>
+            <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/09-Test_Upload_of_Malicious_Files">Test Upload of Malicious Files</a></li>
+            <li>OWASP : <a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/10-Business_Logic_Testing/08-Test_Upload_of_Unexpected_File_Types">Test Upload of Unexpected File Types</a></li>
+            <li>OWASP : <a href="https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html">File upload Cheat Sheet</a></li>
+          </ul>
 
       <h5>MITRE</h5>
         <ul> 
